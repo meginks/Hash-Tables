@@ -1,6 +1,7 @@
 # '''
 # Linked List hash table key/value pair
 # '''
+
 class LinkedPair:
     def __init__(self, key, value):
         self.key = key
@@ -51,7 +52,18 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        linked_pair = LinkedPair(key, value) 
+        hash_mod = self._hash_mod(key)
+        current_pair = self.storage[hash_mod]
+        while current_pair is not None and current_pair.key is not key: 
+            last_pair = current_pair
+            current_pair = last_pair.next
+        if current_pair is None: 
+            linked_pair.next = self.storage[hash_mod]
+            self.storage[hash_mod] = linked_pair
+        else: 
+            current_pair.value = value     
+
 
 
 
@@ -63,7 +75,17 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        hash_mod = self._hash_mod(key)
+        current_pair = self.storage[hash_mod]
+        if current_pair is not None and current_pair.next is None: 
+            self.storage[hash_mod] = None
+        elif current_pair is not None and current_pair.next is not None: 
+            last_pair = current_pair.next 
+            self.storage[hash_mod] = last_pair
+        else: 
+            print('Key was not found')
+    
+        
 
 
     def retrieve(self, key):
@@ -74,7 +96,19 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        hash_mod = self._hash_mod(key)
+        current_key = key 
+        current_pair = self.storage[hash_mod]
+        if current_pair is None:
+            return None
+        while current_pair.key is not current_key: 
+            last_pair = current_pair
+            current_pair = last_pair.next 
+        if current_key is current_pair.key: 
+            return current_pair.value
+        
+
+
 
 
     def resize(self):
@@ -84,7 +118,9 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        self.capacity *= 2 
+        
+
 
 
 
@@ -115,3 +151,6 @@ if __name__ == "__main__":
     print(ht.retrieve("line_3"))
 
     print("")
+
+
+
