@@ -118,7 +118,20 @@ class HashTable:
 
         Fill this in.
         '''
-        self.capacity *= 2 
+        new_storage = [None] * self.capacity 
+        self.storage.extend(new_storage) 
+        for item in new_storage: 
+            if item is not None and item.next is None:
+                self.storage[self._hash_mod(item.key)] = item 
+            elif item is not None and item.next is not None:
+                item = item.next 
+                self.storage[self._hash_mod(item.key)] = item
+            else: 
+                pass
+
+
+      
+        
         
 
 
